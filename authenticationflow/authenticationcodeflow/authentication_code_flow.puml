@@ -1,0 +1,22 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+actor "Resource Owner" as ro
+participant "User Agent(Browser)" as ua
+participant "Authorization Server(Keycloak)" as aus
+participant "Client Application" as ca
+participant "Resource Server" as rs
+
+ro -> ua: Wants to Access the Client Application
+ua -> ca: Redirect to the url of authorization server
+aus <-- ca: Request authorization of access to Resource Server
+ro <-- aus: Shows the login page
+ro -> aus: Send credentials to login
+ro <-- aus: Show consent page
+ro -> aus: Consents
+aus -> ca: Return Authorization Code
+aus <-- ca: Request a Access Token, sending the Authorization Code
+aus -> ca: Return Access Token
+ca -> rs: Request Private Resource from Resource Owner
+ca <-- rs: Return Private Resource
+@enduml
